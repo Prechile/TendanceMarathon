@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/GlobalView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:foregroundGravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/txtPrestation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Veuillez saisir vos informations personnelles d'enregistrement"
+                android:textColor="#12532B"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#B73600"
+                    android:layout_marginBottom="20dp"
+                    android:text="INFORMATION DU COUREUR"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/fullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="nom prenoms "
+                    android:inputType="text"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColorHint="@color/purple_200">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sexe: "
+                        android:textSize="16dp" />
+                    <Spinner
+                        android:id="@+id/sexe"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/input_bg"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:spinnerMode="dialog"
+                        android:textColor="@color/purple_200"
+                        android:textColorHint="@color/purple_500"
+                        android:textSize="22sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <EditText
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="date de naissance "
+                    android:inputType="date"/>
+
+                <EditText
+                    android:id="@+id/pays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Pays de residence"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="numero de telephone"
+                    android:inputType="phone" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/darker_gray"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_200"
+                    android:textColor="@color/white"
+                    android:text="Contact d'urgence "
+                    android:textSize="16dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <EditText
+                    android:id="@+id/fullNameU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Nom et prenoms"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/telU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Numero de telephone"
+                    android:inputType="phone" />
+
+
+                <ProgressBar
+                    android:id="@+id/progressPay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btnPay"
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:text="Suivant"
+                    android:textColor="#FFF"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
