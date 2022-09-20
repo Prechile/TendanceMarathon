@@ -9,6 +9,9 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import com.google.android.material.snackbar.Snackbar
+import com.tendance.marathon.models.LoginRequest
+import com.tendance.marathon.repository.UserRepository
+import com.tendance.marathon.utils.SharedPreferenceManager
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,38 +37,32 @@ class LoginActivity : AppCompatActivity() {
             connexion.isClickable = false
             loading.visibility = View.VISIBLE
             if (userName.text.isNotEmpty() && password.text.isNotEmpty()){
-                val home = Intent(this, MainActivity2::class.java)
-                startActivity(home)
-                finish()
+                val credentials = LoginRequest("1234", password.text.toString(), userName.text.toString())
+                UserRepository.getInstance().login(credentials) { isSuccess, response ->
+                    if (isSuccess) {
+                        val home = Intent(this, MainActivity::class.java)
+                        SharedPreferenceManager.getInstance(this)!!.saveUser(response!!)
+                        home.putExtra("nom", response.name)
+                        home.putExtra("code", response.code)
+                        home.putExtra("image", response.image)
+                        startActivity(home)
+                        finish()
+                        loading.visibility = View.GONE
+                    } else {
+                        connexion.isClickable = true
+                        loading.visibility = View.GONE
+                        Snackbar.make(view, "Erreur ressayer...", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
             }else{
+                connexion.isClickable = true
+                loading.visibility = View.GONE
                  Snackbar.make(view, "Saisir les identifiants...", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
             }
 
-            //val credentials = LoginRequest(username.text.toString(), password.text.toString())
-//            UserRepository.getInstance().login(credentials) { isSuccess, response ->
-//                if (isSuccess) {
-//                    val home = Intent(this, MainActivity2::class.java)
-//                    SharedPreferenceManager.getInstance(this)!!.userResponse(response!!)
-//                    home.putExtra("directionId", response.directionId)
-//                    home.putExtra("userId", response.id)
-//                    home.putExtra("auth", response.token)
-//                    startActivity(home)
-//                    finish()
-//                    loading.visibility = View.GONE
-//                } else {
-//                    connexion.isClickable = true
-//                    loading.visibility = View.GONE
-//                    val alertDialog: AlertDialog = AlertDialog.Builder(this@LoginActivity)
-//                        .create()
-//                    alertDialog.setCancelable(false)
-//                    alertDialog.setMessage("Echec de connexion, veuillez réessayer")
-//                    alertDialog.setButton(
-//                        AlertDialog.BUTTON_NEUTRAL, "OK",
-//                        DialogInterface.OnClickListener { dialog, _ -> dialog.dismiss() })
-//                    alertDialog.show()
-//                }
-//            }
+
         }
 
     }

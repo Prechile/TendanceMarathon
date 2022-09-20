@@ -49,19 +49,17 @@
             android:text="Connectez vous"/>
 
         <EditText
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="nom d'utiisateur"
-            android:text="M001"
             android:layout_marginTop="30dp"
-            android:id="@+id/username"
-            android:textStyle="bold"
-            android:inputType="text"/>
+            android:hint="nom d'utiisateur"
+            android:inputType="text"
+            android:textStyle="bold" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="password"
             android:id="@+id/password"
             android:hint="mot de passe"
             android:layout_marginTop="30dp"

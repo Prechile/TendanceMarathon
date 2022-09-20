@@ -12,27 +12,39 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import com.tendance.marathon.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var info : CardView
-    lateinit var btnCon : Button
+    lateinit var searchBtn : LinearLayout
+    lateinit var reportBtn : LinearLayout
+    lateinit var stopBtn : LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar!!.hide()
+        val bundle = intent.extras
+        val name = bundle!!.getInt("name")
+        val code = bundle.getInt("code")
+        val image = bundle.getString("image")
 
-        info = findViewById(R.id.cardInfo)
-        btnCon = findViewById(R.id.button2)
+        searchBtn = findViewById(R.id.rechercherBtn)
+        reportBtn = findViewById(R.id.signalerBtn)
+        stopBtn = findViewById(R.id.infractionBtn)
 
-        info.setOnClickListener{
-            startActivity(Intent(this, Website::class.java))
+        searchBtn.setOnClickListener{
+            startActivity(Intent(this, MainActivity2::class.java))
         }
 
-        btnCon.setOnClickListener{
-            startActivity(Intent(this, LoginActivity::class.java))
+        reportBtn.setOnClickListener{
+            startActivity(Intent(this, HistoriqueActivity::class.java))
+        }
+
+        stopBtn.setOnClickListener{
+            startActivity(Intent(this, Changepswd::class.java))
         }
 
     }
