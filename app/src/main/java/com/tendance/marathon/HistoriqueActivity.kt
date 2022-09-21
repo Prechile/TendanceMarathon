@@ -1,5 +1,6 @@
 package com.tendance.marathon
 
+import android.app.DatePickerDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.ListView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.zxing.BarcodeFormat
@@ -21,12 +24,17 @@ import com.tendance.marathon.models.AgentTicket
 import com.tendance.marathon.repository.EventsRepository
 import com.tendance.marathon.repository.UserRepository
 import com.tendance.marathon.utils.SharedPreferenceManager
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HistoriqueActivity : AppCompatActivity() {
 
     lateinit var loading: ProgressBar
     lateinit var mListView: ListView
+    lateinit var dateS: TextView
+    lateinit var btn: Button
+    val myCalendar = Calendar.getInstance()
+    var startDateFinal = ""
     val mUsbThermalPrinter = UsbThermalPrinter(this)
     lateinit var qrCode: Bitmap
 
@@ -36,12 +44,35 @@ class HistoriqueActivity : AppCompatActivity() {
 
         val user = SharedPreferenceManager.getInstance(this)!!.getUserResponse()
         val auth = user.token
+        dateS= findViewById(R.id.selectDate)
+        btn= findViewById(R.id.btnok)
         loading = findViewById(R.id.loading)
         mListView = findViewById(R.id.OperationlistViewId)
 
+        val date = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, month)
+            myCalendar.set(Calendar.DAY_OF_MONTH, day)
+            updateLabel()
+        }
+
+        dateS.setOnClickListener {
+            DatePickerDialog(
+                this,
+                date,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        btn.setOnClickListener{
+
+        }
+
 
         try {
-            UserRepository.getInstance().getAgentTickets(user.token!!,"") { isSuccess, response ->
+            UserRepository.getInstance().getAgentTickets(user.token!!,startDateFinal) { isSuccess, response ->
                     if (isSuccess) {
                         loading.visibility = View.GONE
                         mListView.adapter = HistoriqueAdapter(this,response!! as ArrayList<AgentTicket>)
@@ -92,6 +123,14 @@ class HistoriqueActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }).start()
+
+    }
+
+    private fun updateLabel() {
+        val myFormat = "yyyy-MM-dd"
+        val dateFormat = SimpleDateFormat(myFormat, Locale.US)
+        dateS.setText(dateFormat.format(myCalendar.time))
+        startDateFinal = dateFormat.format(myCalendar.time).toString()
 
     }
 

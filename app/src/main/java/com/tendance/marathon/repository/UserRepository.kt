@@ -23,6 +23,7 @@ class UserRepository {
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable?){
                 onResult(false,null)
+                t!!.message
             }
         })
     }

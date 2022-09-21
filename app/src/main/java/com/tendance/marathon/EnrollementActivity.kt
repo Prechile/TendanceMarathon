@@ -55,7 +55,6 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
         telU = findViewById(R.id.telU)
         loading = findViewById(R.id.progressPay)
 
-        //mdate.isEnabled = false
         mdate.isFocusable = false
 
         val bundle = intent.extras
@@ -91,8 +90,8 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
                 if (fullName.text.length<3 || fullNameU.text.length<3 ||tel.text.length<8 ||
                     telU.text.length<8 ){
 
-                    fullName.error = "superieur a 3 caracteres"
-                    tel.error = "superieur a 3 caracteres"
+                    fullName.error = "superieur a 5 caracteres"
+                    tel.error = "superieur a 8 caracteres"
                     pays.error = "superieur a 3 caracteres"
                 }
 
@@ -142,6 +141,7 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
                 Toast.makeText(this, "Cash", Toast.LENGTH_LONG).show()
                 modePayId = 0
                 createClient(model)
+                finish()
             }
 
             "tmoney" -> {
@@ -297,12 +297,13 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
                     generateTicket(
                         response.clientName,
                         response.eventName,
-                        response.eventDate,
+                        response.stringEventDate,
                         response.amount.toString(),
                         response.dossar,
                         response.clientPhoneNumber,
                         response.number
                     )
+                    finish()
                 } else {
                     Toast.makeText(this, "ECHEC", Toast.LENGTH_LONG).show()
                 }

@@ -1,17 +1,19 @@
 package com.tendance.marathon
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.tendance.marathon.models.LoginRequest
 import com.tendance.marathon.repository.UserRepository
 import com.tendance.marathon.utils.SharedPreferenceManager
+import android.provider.Settings
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,11 +35,13 @@ class LoginActivity : AppCompatActivity() {
         connexion = findViewById(R.id.btnConnexion)
         view = findViewById(R.id.global)
 
+
         connexion.setOnClickListener {
             connexion.isClickable = false
             loading.visibility = View.VISIBLE
             if (userName.text.isNotEmpty() && password.text.isNotEmpty()){
-                val credentials = LoginRequest("1234", password.text.toString(), userName.text.toString())
+                val androidId: String = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+                val credentials = LoginRequest(androidId, password.text.toString(), userName.text.toString())
                 UserRepository.getInstance().login(credentials) { isSuccess, response ->
                     if (isSuccess) {
                         val home = Intent(this, MainActivity::class.java)
