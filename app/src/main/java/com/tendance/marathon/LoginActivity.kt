@@ -2,6 +2,7 @@ package com.tendance.marathon
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.tendance.marathon.models.LoginRequest
 import com.tendance.marathon.repository.UserRepository
 import com.tendance.marathon.utils.SharedPreferenceManager
-import android.provider.Settings
 
 
 class LoginActivity : AppCompatActivity() {
@@ -23,10 +23,10 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loading:ProgressBar
     lateinit var view:RelativeLayout
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         supportActionBar!!.hide()
 
         userName = findViewById(R.id.username)
@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
         loading = findViewById(R.id.progressbar)
         connexion = findViewById(R.id.btnConnexion)
         view = findViewById(R.id.global)
+
 
 
         connexion.setOnClickListener {
@@ -68,6 +69,8 @@ class LoginActivity : AppCompatActivity() {
 
 
         }
+
+
 
     }
 }

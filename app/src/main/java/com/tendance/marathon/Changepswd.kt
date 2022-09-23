@@ -1,13 +1,13 @@
 package com.tendance.marathon
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.tendance.marathon.models.changePassword
 import com.tendance.marathon.repository.UserRepository
 import com.tendance.marathon.utils.SharedPreferenceManager
@@ -19,11 +19,12 @@ class Changepswd : AppCompatActivity() {
     lateinit var confirm:EditText
     lateinit var loading:ProgressBar
     lateinit var btn:Button
-    
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_changepswd)
-        
+
         old = findViewById(R.id.old)
         nveau = findViewById(R.id.nveau)
         confirm = findViewById(R.id.confirm)
@@ -53,6 +54,10 @@ class Changepswd : AppCompatActivity() {
 
                 }
             }
+            }
+
+
         }
-    }
+
+
 }

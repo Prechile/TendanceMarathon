@@ -17,7 +17,9 @@ import com.tendance.marathon.models.newClientRequest
 import com.tendance.marathon.models.paygateRequest
 import com.tendance.marathon.repository.ClientRepository
 import com.tendance.marathon.repository.EventsRepository
+import com.tendance.marathon.utils.AidlUtil
 import com.tendance.marathon.utils.SharedPreferenceManager
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,6 +47,11 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enrollement)
 
+        //print with sunmi
+        AidlUtil.getInstance().connectPrinterService(this)
+        AidlUtil.getInstance().initPrinter(application)
+
+
         btnPay = findViewById(R.id.btnPay)
         sexe = findViewById(R.id.sexe)
         mdate = findViewById(R.id.date)
@@ -56,7 +63,6 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
         loading = findViewById(R.id.progressPay)
 
         mdate.isFocusable = false
-
         val bundle = intent.extras
         eventId = bundle!!.getInt("eventId")
 
@@ -278,7 +284,50 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
             mUsbThermalPrinter.addString(content4)
             mUsbThermalPrinter.printString()
 
+
         } catch (ex: TelpoException) {
+            ex.message
+            ex.printStackTrace()
+        }
+
+    }
+
+    private fun generateTicket2(
+        fullName: String, eventName: String, eventDate: String,
+        amount: String, dossard: String, numero: String, ref: String
+    ) {
+
+        try {
+            val aidl = AidlUtil.getInstance()
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logomarathon)
+            if (bitmap != null) {
+                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.logomarathon)
+                aidl.printBitmap(bitmap)
+            }
+
+            aidl.printText(application,"Recu ticket",28.0F,true,true)
+            aidl.printText(application,"***********************************",24.0F,true,false)
+            aidl.printText(application,"",2.0F,true,false)
+            aidl.printText(application,fullName,28.5F,true,false)
+            aidl.printText(application,"date: $eventDate",26.0F,true,false)
+            aidl.printText(application,"Montant: $amount xof",26.0F,true,false)
+            aidl.printText(application,"Ref: $ref",26.0F,true,false)
+            aidl.printText(application,"Telephone: $numero",26.0F,true,false)
+            aidl.printText(application,"Dossard: $dossard",26.0F,true,false)
+            aidl.printText(application,"Evenement: $eventName",26.0F,true,false)
+
+            aidl.printQr(ref,10,5)
+
+            aidl.printText(application,"********************************",24.0F,true,false)
+            aidl.printText(application,"Provided by Proconsulting",26.0F,true,false)
+            aidl.printText(application,"********************************",24.0F,true,false)
+            aidl.printText(application,"",2.2F,true,false)
+            aidl.printText(application,"",2.2F,true,false)
+            aidl.printText(application,"",2.2F,true,false)
+
+
+
+        } catch (ex: Exception) {
             ex.message
             ex.printStackTrace()
         }
@@ -295,6 +344,16 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
                     qrCode = createCode(response!!.number, BarcodeFormat.QR_CODE, 350, 350)
 
                     generateTicket(
+                        response.clientName,
+                        response.eventName,
+                        response.stringEventDate,
+                        response.amount.toString(),
+                        response.dossar,
+                        response.clientPhoneNumber,
+                        response.number
+                    )
+
+                    generateTicket2(
                         response.clientName,
                         response.eventName,
                         response.stringEventDate,
@@ -337,6 +396,15 @@ class EnrollementActivity : AppCompatActivity(), OptionsBottomSheetFragment.Item
                                             response.clientName,
                                             response.eventName,
                                             response.eventDate,
+                                            response.amount.toString(),
+                                            response.dossar,
+                                            response.clientPhoneNumber,
+                                            response.number
+                                        )
+                                        generateTicket2(
+                                            response.clientName,
+                                            response.eventName,
+                                            response.stringEventDate,
                                             response.amount.toString(),
                                             response.dossar,
                                             response.clientPhoneNumber,
